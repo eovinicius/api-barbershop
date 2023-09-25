@@ -1,6 +1,6 @@
 import { hash } from 'bcrypt';
-import { IUserReposotory } from '../../repositories/interface/IUserRepository';
 import { AppError } from './../../../../shared/error/AppError';
+import { IUserRepository } from '../../repositories/interface/IUserRepository';
 
 interface IRequest {
   name: string;
@@ -10,7 +10,7 @@ interface IRequest {
 }
 
 export class CreateUserUseCase {
-  constructor(private userRepository: IUserReposotory) {}
+  constructor(private userRepository: IUserRepository) {}
   async execute({ name, password, phone, email }: IRequest): Promise<void> {
     const emailAlreadyExists = this.userRepository.findByEmail(email);
 
