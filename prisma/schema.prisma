@@ -11,13 +11,52 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
-  name       String
-  email      String   @unique
-  phone      String   @unique
-  password   String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id           String        @id @default(uuid())
+  name         String
+  email        String        @unique
+  password     String
+  phone        String        @unique
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  appointments Appointment[]
 
   @@map("user")
+}
+
+model Barber {
+  id           String        @id @default(uuid())
+  name         String
+  cpf          String        @unique
+  phone        String
+  email        String        @unique
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  appointments Appointment[]
+
+  @@map("barber")
+}
+
+model Appointment {
+  id           String   @id @default(uuid())
+  id_user      String
+  id_barber    String
+  haircut_date DateTime
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  barber   Barber    @relation(fields: [id_barber], references: [id])
+  user     User      @relation(fields: [id_user], references: [id])
+  haircuts Haircut[]
+
+  @@map("appointment")
+}
+
+model Haircut {
+  id              String      @id
+  name            String      @unique
+  id_appointment  String
+  price           Int
+  appointments    Appointment @relation(fields: [id_appointment], references: [id])
+
+  @@map("haircut")
 }
