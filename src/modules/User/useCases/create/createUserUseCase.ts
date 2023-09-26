@@ -1,8 +1,6 @@
-import { hash } from 'bcrypt';
 import { AppError } from './../../../../shared/error/AppError';
 import { IUserRepository } from '../../repositories/interface/IUserRepository';
 import { IProviderCrypto } from '../../provider/interface/IProviderCrypto';
-import { prisma } from '@/lib/prisma/prismaClient';
 
 interface IRequest {
   name: string;
@@ -14,13 +12,13 @@ interface IRequest {
 export class CreateUserUseCase {
   constructor(private userRepository: IUserRepository, private providerCrypto: IProviderCrypto) {}
   async execute({ name, password, phone, email }: IRequest): Promise<void> {
-    const emailAlreadyExists = this.userRepository.findByEmail(email);
+    const emailAlreadyExists = await this.userRepository.findByEmail(email);
 
-    if (!emailAlreadyExists) throw new AppError(400, 'email already registered');
+    if (emailAlreadyExists) throw new AppError(400, 'email already registered');
 
-    const phoneAlreadyExists = this.userRepository.findByPhone(phone);
+    const phoneAlreadyExists = await this.userRepository.findByPhone(phone);
 
-    if (!phoneAlreadyExists) throw new AppError(400, 'phone already registered');
+    if (phoneAlreadyExists) throw new AppError(400, 'phone already registered');
 
     const hashPassword = await this.providerCrypto.hash(password);
 
