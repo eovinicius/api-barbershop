@@ -5,7 +5,8 @@ export class ProviderCrypto implements IProviderCrypto {
     const Hashpassword = await bcrypt.hash(password, 10);
     return Hashpassword;
   }
-  compare(password: string, hashPassword: string): Promise<boolean> {
-    throw new Error('Method not implemented.');
+  async compare(password: string, hashPassword: string): Promise<boolean> {
+    const equals = await bcrypt.compare(password, hashPassword);
+    return equals;
   }
 }
