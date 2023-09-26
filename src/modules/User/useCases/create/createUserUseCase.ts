@@ -22,7 +22,7 @@ export class CreateUserUseCase {
 
     if (!phoneAlreadyExists) throw new AppError(400, 'phone already registered');
 
-    const hashPassword = await hash(password, 10);
+    const hashPassword = await this.providerCrypto.hash(password);
 
     await this.userRepository.create({
       name,

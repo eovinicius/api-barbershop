@@ -1,7 +1,7 @@
-import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { AppError } from './../../../../shared/error/AppError';
 import { IUserRepository } from '../../repositories/interface/IUserRepository';
+import { IProviderCrypto } from '../../provider/interface/IProviderCrypto';
 
 interface IRequest {
   email: string;
@@ -17,14 +17,14 @@ interface IResponse {
 }
 
 export class AuthenticateUserUseCase {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(private userRepository: IUserRepository, private providerCrypto: IProviderCrypto) {}
 
   async execute({ email, password }: IRequest): Promise<IResponse> {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) throw new AppError(403, 'email or password incorrect!');
 
-    if (!(await compare(password, user.password))) throw new AppError(403, 'email or password incorrect!');
+    if (!(await this.providerCrypto.compare(password, user.password))) throw new AppError(403, 'email or password incorrect!');
 
     const token = sign({}, process.env.SECRET || '', {
       subject: user.id,
