@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { sign } from 'jsonwebtoken';
 import { AppError } from './../../../../shared/error/AppError';
 import { IUserRepository } from '../../repositories/interface/IUserRepository';
@@ -22,12 +23,12 @@ export class AuthenticateUserUseCase {
   async execute({ email, password }: IRequest): Promise<IResponse> {
     const user = await this.userRepository.findByEmail(email);
 
-    if (!user) throw new AppError(403, 'email or password incorrect!');
+    if (!user) throw new AppError(400, 'email or password incorrect!');
 
-    if (!(await this.providerCrypto.compare(password, user.password))) throw new AppError(403, 'email or password incorrect!');
+    if (!(await this.providerCrypto.compare(password, user.password))) throw new AppError(400, 'email or password incorrect!');
 
     const token = sign({}, process.env.SECRET || '', {
-      subject: user.id,
+      subject: user.id ?? '',
       expiresIn: '1d',
     });
 

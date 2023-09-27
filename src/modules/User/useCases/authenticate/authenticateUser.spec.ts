@@ -1,13 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { InMemoryUserRepository } from '../../repositories/inMemory/InMemoryUserRepository';
 import { ProviderCrypto } from '../../provider/bcrypt/providerCrypto';
-import { AppError } from '../../../../shared/error/AppError';
 import { AuthenticateUserUseCase } from './authenticateUserUseCase';
+import { CreateUserUseCase } from './../create/createUserUseCase';
 
 describe('AuthenticateUserUseCase', () => {
   it('should authenticate a user with correct email and password', async () => {
     const userRepository = new InMemoryUserRepository();
     const providerCrypto = new ProviderCrypto();
+    const createUserUseCase = new CreateUserUseCase(userRepository, providerCrypto);
     const authenticateUserUseCase = new AuthenticateUserUseCase(userRepository, providerCrypto);
 
     // Crie um usuário de exemplo
@@ -22,10 +23,7 @@ describe('AuthenticateUserUseCase', () => {
     };
 
     // Registre o usuário no repositório
-    await userRepository.create(user);
-
-    await providerCrypto.compare()
-
+    await createUserUseCase.execute(user);
 
     // Tente autenticar o usuário
     const authenticationResult = await authenticateUserUseCase.execute({
