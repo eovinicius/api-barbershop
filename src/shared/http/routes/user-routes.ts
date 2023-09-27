@@ -5,4 +5,4 @@ import { Router } from 'express';
 export const userRoutes = Router();
 
 userRoutes.post('/register', CreateUserController.handle);
-userRoutes.post('/authenticate', AuthenticateUserController.handle);
+userRoutes.post('/session', AuthenticateUserController.handle);

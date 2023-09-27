@@ -1,5 +1,6 @@
 import { IProviderCrypto } from '../interface/IProviderCrypto';
 import { hash, compare } from 'bcrypt';
+
 export class ProviderCrypto implements IProviderCrypto {
   async hash(password: string): Promise<string> {
     const Hashpassword = await hash(password, 10);
