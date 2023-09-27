@@ -44,19 +44,33 @@ model Appointment {
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
 
-  barber   Barber    @relation(fields: [id_barber], references: [id])
-  user     User      @relation(fields: [id_user], references: [id])
-  haircuts Haircut[]
+  barber Barber @relation(fields: [id_barber], references: [id])
+  user   User   @relation(fields: [id_user], references: [id])
+
+  // Defina a relação muitos-para-muitos com Haircut
+  Haircuts HaircutAppointment[]
 
   @@map("appointment")
 }
 
 model Haircut {
-  id              String      @id
-  name            String      @unique
-  id_appointment  String
-  price           Int
-  appointments    Appointment @relation(fields: [id_appointment], references: [id])
+  id           String               @id @default(uuid())
+  name         String               @unique
+  price        Int
+  // Defina a relação muitos-para-muitos com Appointment
+  appointments HaircutAppointment[]
 
   @@map("haircut")
+}
+
+// Tabela de junção para a relação muitos-para-muitos
+model HaircutAppointment {
+  id_appointment String
+  id_haircut     String
+
+  appointment Appointment @relation(fields: [id_appointment], references: [id])
+  haircut     Haircut     @relation(fields: [id_haircut], references: [id])
+
+  @@unique([id_appointment, id_haircut])
+  @@map("haircut_appointment")
 }
