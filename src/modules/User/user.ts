@@ -1,6 +1,5 @@
-import { randomUUID } from 'crypto';
-
-interface IPropsUser {
+export interface IUser {
+  id: string;
   name: string;
   password: string;
   email: string;
@@ -8,49 +7,30 @@ interface IPropsUser {
 }
 
 export class User {
-  private id: string;
-  private name: string;
-  private password: string;
-  private phone: string;
-  private email: string;
-  private created_at: Date;
-  private updated_at: Date;
+  private props: IUser;
 
-  constructor({ name, email, phone, password }: IPropsUser) {
-    this.id = randomUUID();
-    this.name = name;
-    this.email = email;
-    this.phone = phone;
-    this.password = password;
-    this.created_at = new Date();
-    this.updated_at = new Date();
+  constructor(props: IUser) {
+    this.props = props;
   }
 
-  getId(): string {
-    return this.id;
+  get id(): string {
+    return this.props.id;
   }
 
-  getName(): string {
-    return this.name;
+  get name(): string {
+    return this.props.name;
   }
 
-  getPassword(): string {
-    return this.password;
+  get password(): string {
+    return this.props.password;
   }
 
-  getEmail(): string {
-    return this.email;
+  get email(): string {
+    return this.props.email;
   }
 
-  getPhone(): string {
-    return this.phone;
+  get phone(): string {
+    return this.props.phone;
   }
 
-  getCreatedAt(): Date {
-    return this.created_at;
-  }
-
-  getUpdatedAt(): Date {
-    return this.updated_at;
-  }
 }

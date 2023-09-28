@@ -2,6 +2,7 @@ import { AppError } from './../../../../shared/error/AppError';
 import { IUserRepository } from '../../repositories/interface/IUserRepository';
 import { IProviderCrypto } from '../../provider/interface/IProviderCrypto';
 import { User } from '../../user';
+import { randomUUID } from 'crypto';
 
 interface IRequest {
   name: string;
@@ -23,16 +24,14 @@ export class CreateUserUseCase {
 
     const hashPassword = await this.providerCrypto.hash(password);
 
-    const user = new User({ name, password, phone, email });
-
-    await this.userRepository.create({
-      id: user.getId(),
+    const user = new User({
+      id: randomUUID(),
       name,
-      email,
-      phone,
       password: hashPassword,
-      created_at: user.getCreatedAt(),
-      updated_at: user.getUpdatedAt(),
+      phone,
+      email,
     });
+
+    await this.userRepository.create(user);
   }
 }

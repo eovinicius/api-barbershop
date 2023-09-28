@@ -29,10 +29,13 @@ describe('CreateUserUseCase', () => {
     const createUserUseCase = new CreateUserUseCase(userRepository, providerCrypto);
 
     const user = {
+      id: '1',
       name: 'Test User',
       password: 'password123',
       email: 'test@example.com',
       phone: '1234567890',
+      created_at: new Date(),
+      updated_at: new Date(),
     };
 
     await createUserUseCase.execute(user);
@@ -50,19 +53,25 @@ describe('CreateUserUseCase', () => {
     const createUserUseCase = new CreateUserUseCase(userRepository, providerCrypto);
 
     const user1 = {
+      id: '1',
       name: 'User 1',
       password: 'password123',
       email: 'user1@example.com',
       phone: '1234567890',
+      created_at: new Date(),
+      updated_at: new Date(),
     };
 
     await createUserUseCase.execute(user1);
 
     const user2 = {
+      id: '1',
       name: 'User 2',
       password: 'anotherpassword',
       email: 'user1@example.com',
       phone: '9876543210',
+      created_at: new Date(),
+      updated_at: new Date(),
     };
 
     await expect(createUserUseCase.execute(user2)).rejects.toThrowError('email already registered');

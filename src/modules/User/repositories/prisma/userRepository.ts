@@ -1,18 +1,18 @@
 import { prisma } from '../../../../lib/prisma/prismaClient';
-import { IUserDTO } from '../../DTOS/IUserDTO';
+import { IUser } from '../../user';
 import { IUserRepository } from '../interface/IUserRepository';
 
 export class UserRepository implements IUserRepository {
-  async create({ id, name, email, phone, password, created_at, updated_at }: IUserDTO): Promise<void> {
-    await prisma.user.create({ data: { id, name, email, phone, password, created_at, updated_at } });
+  async create(data: IUser): Promise<void> {
+    await prisma.user.create({ data });
   }
 
-  async findByEmail(email: string): Promise<IUserDTO | null> {
+  async findByEmail(email: string): Promise<IUser | null> {
     const user = await prisma.user.findUnique({ where: { email } });
     return user;
   }
 
-  async findByPhone(phone: string): Promise<IUserDTO | null> {
+  async findByPhone(phone: string): Promise<IUser | null> {
     const user = await prisma.user.findUnique({ where: { phone } });
     return user;
   }
