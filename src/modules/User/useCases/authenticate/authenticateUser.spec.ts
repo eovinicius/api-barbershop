@@ -11,7 +11,6 @@ describe('AuthenticateUserUseCase', () => {
     const createUserUseCase = new CreateUserUseCase(userRepository, providerCrypto);
     const authenticateUserUseCase = new AuthenticateUserUseCase(userRepository, providerCrypto);
 
-    // Crie um usuário de exemplo
     const user = {
       id: '1',
       name: 'John Doe',
@@ -22,16 +21,13 @@ describe('AuthenticateUserUseCase', () => {
       updated_at: new Date(),
     };
 
-    // Registre o usuário no repositório
     await createUserUseCase.execute(user);
 
-    // Tente autenticar o usuário
     const authenticationResult = await authenticateUserUseCase.execute({
       email: 'johndoe@example.com',
-      password: 'password123', // Senha correta
+      password: 'password123',
     });
 
-    // Verifique se a autenticação foi bem-sucedida e o token foi retornado
     expect(authenticationResult.token).toBeTruthy();
     expect(authenticationResult.user).toEqual({ name: 'John Doe', email: 'johndoe@example.com' });
   });
@@ -41,10 +37,9 @@ describe('AuthenticateUserUseCase', () => {
     const providerCrypto = new ProviderCrypto();
     const authenticateUserUseCase = new AuthenticateUserUseCase(userRepository, providerCrypto);
 
-    // Tente autenticar com um email incorreto que não existe no repositório
     await expect(
       authenticateUserUseCase.execute({
-        email: 'nonexistent@example.com', // Email incorreto
+        email: 'nonexistent@example.com',
         password: 'password123',
       }),
     ).rejects.toThrowError('email or password incorrect!');
@@ -55,7 +50,6 @@ describe('AuthenticateUserUseCase', () => {
     const providerCrypto = new ProviderCrypto();
     const authenticateUserUseCase = new AuthenticateUserUseCase(userRepository, providerCrypto);
 
-    // Crie um usuário de exemplo com uma senha diferente
     const user = {
       id: '1',
       name: 'John Doe',
@@ -66,14 +60,12 @@ describe('AuthenticateUserUseCase', () => {
       updated_at: new Date(),
     };
 
-    // Registre o usuário no repositório
     await userRepository.create(user);
 
-    // Tente autenticar com a senha incorreta
     await expect(
       authenticateUserUseCase.execute({
         email: 'janesmith@example.com',
-        password: 'incorrectpassword', // Senha incorreta
+        password: 'incorrectpassword',
       }),
     ).rejects.toThrowError('email or password incorrect!');
   });

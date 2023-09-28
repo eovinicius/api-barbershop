@@ -48,16 +48,15 @@ describe('CreateUserUseCase', () => {
     const userRepository = new InMemoryUserRepository();
     const providerCrypto = new ProviderCrypto();
     const createUserUseCase = new CreateUserUseCase(userRepository, providerCrypto);
-  
+
     const user1 = {
       name: 'User 1',
       password: 'password123',
       email: 'user1@example.com',
       phone: '1234567890',
     };
-  
+
     await createUserUseCase.execute(user1);
-  
 
     const user2 = {
       name: 'User 2',
@@ -65,7 +64,7 @@ describe('CreateUserUseCase', () => {
       email: 'user1@example.com',
       phone: '9876543210',
     };
-  
+
     await expect(createUserUseCase.execute(user2)).rejects.toThrowError('email already registered');
   });
 });

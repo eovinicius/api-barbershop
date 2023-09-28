@@ -1,7 +1,7 @@
-import { IUserCreateDTO, IUserDTO } from '../../DTOS/IUserDTO';
+import { IUserDTO } from '../../DTOS/IUserDTO';
 
 export interface IUserRepository {
-  create({ name, email, phone, password }: IUserCreateDTO): Promise<void>;
+  create(data: IUserDTO): Promise<void>;
   findByEmail(email: string): Promise<IUserDTO | null>;
   findByPhone(phone: string): Promise<IUserDTO | null>;
 }

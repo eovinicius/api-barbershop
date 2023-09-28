@@ -44,11 +44,18 @@ CREATE TABLE `appointment` (
 CREATE TABLE `haircut` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `id_appointment` VARCHAR(191) NOT NULL,
     `price` INTEGER NOT NULL,
 
     UNIQUE INDEX `haircut_name_key`(`name`),
     PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `haircut_appointment` (
+    `id_appointment` VARCHAR(191) NOT NULL,
+    `id_haircut` VARCHAR(191) NOT NULL,
+
+    UNIQUE INDEX `haircut_appointment_id_appointment_id_haircut_key`(`id_appointment`, `id_haircut`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
@@ -58,4 +65,7 @@ ALTER TABLE `appointment` ADD CONSTRAINT `appointment_id_barber_fkey` FOREIGN KE
 ALTER TABLE `appointment` ADD CONSTRAINT `appointment_id_user_fkey` FOREIGN KEY (`id_user`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `haircut` ADD CONSTRAINT `haircut_id_appointment_fkey` FOREIGN KEY (`id_appointment`) REFERENCES `appointment`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `haircut_appointment` ADD CONSTRAINT `haircut_appointment_id_appointment_fkey` FOREIGN KEY (`id_appointment`) REFERENCES `appointment`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `haircut_appointment` ADD CONSTRAINT `haircut_appointment_id_haircut_fkey` FOREIGN KEY (`id_haircut`) REFERENCES `haircut`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
