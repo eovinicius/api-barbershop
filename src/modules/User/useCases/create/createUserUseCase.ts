@@ -32,6 +32,12 @@ export class CreateUserUseCase {
       email,
     });
 
-    await this.userRepository.create(user);
+    await this.userRepository.create({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      phone: user.phone,
+    });
   }
 }

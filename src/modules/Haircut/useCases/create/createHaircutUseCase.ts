@@ -21,6 +21,10 @@ export class CreateHaircutUseCase {
       price,
     });
 
-    await this.haircutRepository.create(haircut);
+    await this.haircutRepository.create({
+      id: haircut.id,
+      name: haircut.name,
+      price: haircut.price,
+    });
   }
 }
