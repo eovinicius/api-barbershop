@@ -9,15 +9,24 @@ interface IRequest {
 
 export class UpdateHaircutUseCase {
   constructor(private haircutRepository: HaircutRepository) {}
-  async execute({ id, name, price }: IRequest): Promise<void> {
-    const haircutAlreadyExists = await this.haircutRepository.findById(id);
+
+  async execute(data: IRequest): Promise<void> {
+
+    console.log(data);
+
+    const haircutAlreadyExists = await this.haircutRepository.findById(data.id);
 
     if (!haircutAlreadyExists) throw new AppError(400, 'haircut not found or does not exist');
 
-    if (haircutAlreadyExists && haircutAlreadyExists.id != id) {
-      throw new AppError(400, 'Already registered haircut');
-    }
+    if (haircutAlreadyExists && haircutAlreadyExists.id != data.id) throw new AppError(400, 'Already registered haircut');
+
+    const { id, name = haircutAlreadyExists.name, price = haircutAlreadyExists.price } = data;
+
+    console.log({ id, name, price });
 
     await this.haircutRepository.update({ id, name, price });
+
   }
 }
+
+// object assign

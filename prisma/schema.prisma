@@ -25,7 +25,7 @@ model Barber {
   id           String        @id @unique
   name         String
   cpf          String        @unique
-  phone        String
+  phone        String        @unique
   email        String        @unique
   appointments Appointment[]
 

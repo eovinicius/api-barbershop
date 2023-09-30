@@ -22,6 +22,7 @@ CREATE TABLE `barber` (
 
     UNIQUE INDEX `barber_id_key`(`id`),
     UNIQUE INDEX `barber_cpf_key`(`cpf`),
+    UNIQUE INDEX `barber_phone_key`(`phone`),
     UNIQUE INDEX `barber_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
