@@ -25,7 +25,6 @@ model Barber {
   id           String        @id @unique
   name         String
   photo        String        @unique
-  
   appointments Appointment[]
 
   @@map("barber")
