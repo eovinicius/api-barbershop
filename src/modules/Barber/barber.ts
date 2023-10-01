@@ -1,9 +1,7 @@
 export interface IBarber {
   id: string;
   name: string;
-  cpf: string;
-  phone: string;
-  email: string;
+  photo: string;
 }
 
 export class Barber {
@@ -21,15 +19,7 @@ export class Barber {
     return this.props.name;
   }
 
-  get cpf(): string {
-    return this.props.cpf;
-  }
-
-  get phone(): string {
-    return this.props.phone;
-  }
-
-  get email(): string {
-    return this.props.email;
+  get photo(): string {
+    return this.props.photo;
   }
 }

@@ -10,15 +10,15 @@ interface IRequest {
 
 export class CreateHaircutUseCase {
   constructor(private haircutRepository: HaircutRepository) {}
-  async execute({ name, price }: IRequest) {
-    const nameAlreadyExists = await this.haircutRepository.findByName(name);
+  async execute(data: IRequest) {
+    const nameAlreadyExists = await this.haircutRepository.findByName(data.name);
 
     if (nameAlreadyExists) throw new AppError(400, 'haircut already registered');
 
     const haircut = new Haircut({
       id: randomUUID(),
-      name,
-      price,
+      name: data.name,
+      price: data.price,
     });
 
     await this.haircutRepository.create({

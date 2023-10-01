@@ -14,13 +14,13 @@ export class UpdateHaircutUseCase {
 
     console.log(data);
 
-    const haircutAlreadyExists = await this.haircutRepository.findById(data.id);
+    const haircut = await this.haircutRepository.findById(data.id);
 
-    if (!haircutAlreadyExists) throw new AppError(400, 'haircut not found or does not exist');
+    if (!haircut) throw new AppError(400, 'haircut not found or does not exist');
 
-    if (haircutAlreadyExists && haircutAlreadyExists.id != data.id) throw new AppError(400, 'Already registered haircut');
+    if (haircut && haircut.id != data.id) throw new AppError(400, 'Already registered haircut');
 
-    const { id, name = haircutAlreadyExists.name, price = haircutAlreadyExists.price } = data;
+    const { id, name = haircut.name, price = haircut.price } = data;
 
     console.log({ id, name, price });
 

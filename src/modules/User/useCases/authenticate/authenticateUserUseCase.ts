@@ -20,12 +20,12 @@ interface IResponse {
 export class AuthenticateUserUseCase {
   constructor(private userRepository: IUserRepository, private providerCrypto: IProviderCrypto) {}
 
-  async execute({ email, password }: IRequest): Promise<IResponse> {
-    const user = await this.userRepository.findByEmail(email);
+  async execute(data: IRequest): Promise<IResponse> {
+    const user = await this.userRepository.findByEmail(data.email);
 
     if (!user) throw new AppError(400, 'email or password incorrect!');
 
-    if (!(await this.providerCrypto.compare(password, user.password))) throw new AppError(400, 'email or password incorrect!');
+    if (!(await this.providerCrypto.compare(data.password, user.password))) throw new AppError(400, 'email or password incorrect!');
 
     const token = sign({}, process.env.SECRET || '', {
       subject: user.id ?? '',

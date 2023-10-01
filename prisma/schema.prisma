@@ -24,9 +24,8 @@ model User {
 model Barber {
   id           String        @id @unique
   name         String
-  cpf          String        @unique
-  phone        String        @unique
-  email        String        @unique
+  photo        String        @unique
+  
   appointments Appointment[]
 
   @@map("barber")

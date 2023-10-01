@@ -10,6 +10,6 @@ interface IRequest {
 export class CreateBarberUseCase {
   constructor(private barberRepository: IBarberRepository) {}
   async execute(data: IRequest) {
-    const cpfAlreadyExists = await this.barberRepository.findByCpf(data.cpf);
+    
   }
 }

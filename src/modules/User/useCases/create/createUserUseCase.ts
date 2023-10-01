@@ -13,23 +13,23 @@ interface IRequest {
 
 export class CreateUserUseCase {
   constructor(private userRepository: IUserRepository, private providerCrypto: IProviderCrypto) {}
-  async execute({ name, password, phone, email }: IRequest): Promise<void> {
-    const emailAlreadyExists = await this.userRepository.findByEmail(email);
+  async execute(data: IRequest): Promise<void> {
+    const emailAlreadyExists = await this.userRepository.findByEmail(data.email);
 
     if (emailAlreadyExists) throw new AppError(400, 'email already registered');
 
-    const phoneAlreadyExists = await this.userRepository.findByPhone(phone);
+    const phoneAlreadyExists = await this.userRepository.findByPhone(data.phone);
 
     if (phoneAlreadyExists) throw new AppError(400, 'phone already registered');
 
-    const hashPassword = await this.providerCrypto.hash(password);
+    const hashPassword = await this.providerCrypto.hash(data.password);
 
     const user = new User({
       id: randomUUID(),
-      name,
+      name: data.name,
       password: hashPassword,
-      phone,
-      email,
+      phone: data.phone,
+      email: data.email,
     });
 
     await this.userRepository.create({
