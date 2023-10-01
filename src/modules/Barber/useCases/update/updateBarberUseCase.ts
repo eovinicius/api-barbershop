@@ -1,5 +1,5 @@
-import { AppError } from '../../../../shared/error/AppError';
-import { BarberRepository } from '../../repositories/prisma/barberRepository';
+import { AppError } from '../../../../shared/error/AppError'
+import { IBarberRepository } from '../../repositories/interface/IBarberRepository';
 
 interface IRequest {
   id: string;
@@ -8,7 +8,7 @@ interface IRequest {
 }
 
 export class UpdateBarberUseCase {
-  constructor(private barberRepository: BarberRepository) {}
+  constructor(private barberRepository: IBarberRepository) {}
   async execute(data: IRequest) {
     const barber = await this.barberRepository.findById(data.id);
 

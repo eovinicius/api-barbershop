@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import { AppError } from '../../../../shared/error/AppError';
 import { Haircut } from '../../haircut';
-import { HaircutRepository } from './../../repositories/prisma/haircutRepository';
+import { IHaircutRepository } from '../../repositories/interface/IHaircutRepository';
 
 interface IRequest {
   name: string;
@@ -9,7 +9,7 @@ interface IRequest {
 }
 
 export class CreateHaircutUseCase {
-  constructor(private haircutRepository: HaircutRepository) {}
+  constructor(private haircutRepository: IHaircutRepository) {}
   async execute(data: IRequest) {
     const nameAlreadyExists = await this.haircutRepository.findByName(data.name);
 

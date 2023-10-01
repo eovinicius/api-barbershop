@@ -1,7 +1,9 @@
-import { IUserDTO } from '../../DTOS/IUserDTO';
+import { IUser } from '../../user';
 
 export interface IUserRepository {
-  create(data: IUserDTO): Promise<void>;
-  findByEmail(email: string): Promise<IUserDTO | null>;
-  findByPhone(phone: string): Promise<IUserDTO | null>;
+  create(data: IUser): Promise<void>;
+  findByEmail(email: string): Promise<IUser | null>;
+  findByPhone(phone: string): Promise<IUser | null>;
+  findById(id: string): Promise<IUser | null>;
+  update(data: IUser): Promise<void>;
 }
