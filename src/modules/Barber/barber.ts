@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto';
+
 export interface IBarber {
   id: string;
   name: string;
@@ -7,8 +9,11 @@ export interface IBarber {
 export class Barber {
   private props: IBarber;
 
-  constructor(props: IBarber) {
-    this.props = props;
+  constructor(props: Omit<IBarber, 'id'>) {
+    this.props = {
+      id: randomUUID(),
+      ...props,
+    };
   }
 
   get id(): string {

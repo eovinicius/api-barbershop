@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import { AppError } from '../../../../shared/error/AppError';
 import { Haircut } from '../../haircut';
 import { IHaircutRepository } from '../../repositories/interface/IHaircutRepository';
@@ -16,15 +15,10 @@ export class CreateHaircutUseCase {
     if (nameAlreadyExists) throw new AppError(400, 'haircut already registered');
 
     const haircut = new Haircut({
-      id: randomUUID(),
       name: data.name,
       price: data.price,
     });
 
-    await this.haircutRepository.create({
-      id: haircut.id,
-      name: haircut.name,
-      price: haircut.price,
-    });
+    await this.haircutRepository.create(haircut);
   }
 }

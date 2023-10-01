@@ -25,19 +25,12 @@ export class CreateUserUseCase {
     const hashPassword = await this.providerCrypto.hash(data.password);
 
     const user = new User({
-      id: randomUUID(),
       name: data.name,
       password: hashPassword,
       phone: data.phone,
       email: data.email,
     });
-
-    await this.userRepository.create({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      password: user.password,
-      phone: user.phone,
-    });
+    
+    await this.userRepository.create(user);
   }
 }

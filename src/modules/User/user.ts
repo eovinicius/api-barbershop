@@ -1,16 +1,21 @@
-export interface IUser {
+import { randomUUID } from 'crypto';
+
+export type IUser = {
   id: string;
   name: string;
   password: string;
   email: string;
   phone: string;
-}
+};
 
 export class User {
   private props: IUser;
 
-  constructor(props: IUser) {
-    this.props = props;
+  constructor(props: Omit<IUser, 'id'>) {
+    this.props = {
+      id: randomUUID(),
+      ...props,
+    };
   }
 
   get id(): string {
@@ -32,5 +37,4 @@ export class User {
   get phone(): string {
     return this.props.phone;
   }
-
 }
