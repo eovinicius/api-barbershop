@@ -2,7 +2,6 @@ import { AppError } from './../../../../shared/error/AppError';
 import { IUserRepository } from '../../repositories/interface/IUserRepository';
 import { IProviderCrypto } from '../../provider/interface/IProviderCrypto';
 import { User } from '../../user';
-import { randomUUID } from 'crypto';
 
 interface IRequest {
   name: string;
