@@ -1,8 +1,8 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-  provider = "prisma-client-js"
+generator customer {
+  provider = "prisma-customer-js"
 }
 
 datasource db {
@@ -10,15 +10,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Customer {
   id           String        @id @unique
   name         String
-  email        String        @unique
-  password     String
+  email        String       @unique
   phone        String        @unique
+  password     String
+  createdAt    DateTime      @map("created_at")
+  updatedAt    DateTime      @map("updated_at")
   appointments Appointment[]
 
-  @@map("user")
+  @@map("customers")
 }
 
 model Barber {
@@ -27,21 +29,21 @@ model Barber {
   photo        String        @unique
   appointments Appointment[]
 
-  @@map("barber")
+  @@map("barbers")
 }
 
 model Appointment {
   id           String               @id @unique
-  id_user      String
+  id_customer  String
   id_barber    String
   haircut_date DateTime
   created_at   DateTime
   Haircuts     HaircutAppointment[]
 
-  barber Barber @relation(fields: [id_barber], references: [id])
-  user   User   @relation(fields: [id_user], references: [id])
+  barber   Barber   @relation(fields: [id_barber], references: [id])
+  customer Customer @relation(fields: [id_customer], references: [id])
 
-  @@map("appointment")
+  @@map("appointments")
 }
 
 model Haircut {
@@ -50,7 +52,7 @@ model Haircut {
   price        Int
   appointments HaircutAppointment[]
 
-  @@map("haircut")
+  @@map("haircuts")
 }
 
 model HaircutAppointment {
@@ -61,5 +63,5 @@ model HaircutAppointment {
   haircut     Haircut     @relation(fields: [id_haircut], references: [id])
 
   @@unique([id_appointment, id_haircut])
-  @@map("haircut_appointment")
+  @@map("haircuts_appointments")
 }
